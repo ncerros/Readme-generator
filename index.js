@@ -37,7 +37,18 @@ const promptUser = () => {
             type: 'input',
             name: 'license',
             message: 'Please choose the license of your project?',
+            choices: [
+                "Apache",
+                "MIT",
+                "Open",
+                "GNU",
+                "Academic",
+                "ISC",
+                "Mozilla"
+
+            ]
         },
+
         {
             type: 'input',
             name: 'installation',
