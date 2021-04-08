@@ -5,7 +5,7 @@ const fs = require('fs');
 // The function will write the file using promises
 const writeFileAsync = util.promisify(fs.writeFile);
 
-// The Array contains all the question the user be promted 
+// The Array contains all the question the user to be promted 
 const promptUser = () => {
     return inquirer.prompt([
         {
@@ -16,11 +16,11 @@ const promptUser = () => {
         {
             type: 'input',
             name: 'Email address',
-            message: 'What is you email address?',
+            message: 'What is your GitHub email account?',
         },
         {
             type: 'input',
-            name: 'title',
+            name: 'project-title',
             message: 'What is the title of your project?',
         },
         {
@@ -34,7 +34,7 @@ const promptUser = () => {
             message: 'what are the instructions for the user about using the repo?',
         },
         {
-            type: 'input',
+            type: 'list',
             name: 'license',
             message: 'Please choose the license of your project?',
             choices: [
@@ -52,7 +52,7 @@ const promptUser = () => {
         {
             type: 'input',
             name: 'installation',
-            message: 'What is the command to install dependencies?',
+            message: 'Is there any installation process?',
         },
         {
             type: 'input',
@@ -61,7 +61,7 @@ const promptUser = () => {
         },
         {
             type: 'input',
-            name: 'contributing',
+            name: 'contributions',
             message: 'How can the user contribute to the repo?',
         },
     ]);
@@ -83,3 +83,4 @@ const generateReadMe = (answers) => {
     };
 
     init();
+};
