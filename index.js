@@ -1,12 +1,13 @@
-const util = require('util');
 const inquirer = require('inquirer');
 const fs = require('fs');
+const util = require('util');
+const { title } = require('process');
 
 // The function will write the file using promises
 const writeFileAsync = util.promisify(fs.writeFile);
 
 // The Array contains all the question the user to be promted 
-const promptUser = () => {
+function promptUser() {
     return inquirer.prompt([
         {
             type: 'input',
@@ -15,12 +16,12 @@ const promptUser = () => {
         },
         {
             type: 'input',
-            name: 'Email address',
-            message: 'What is your GitHub email account?',
+            name: 'email',
+            message: 'What is your GitHub email address?',
         },
         {
             type: 'input',
-            name: 'project-title',
+            name: 'title',
             message: 'What is the title of your project?',
         },
         {
@@ -36,7 +37,7 @@ const promptUser = () => {
         {
             type: 'list',
             name: 'license',
-            message: 'Please choose the license of your project?',
+            message: 'Please choose the license for your project?',
             choices: [
                 "Apache",
                 "MIT",
@@ -52,7 +53,7 @@ const promptUser = () => {
         {
             type: 'input',
             name: 'installation',
-            message: 'Is there any installation process?',
+            message: 'what command is necessary to install dependencies?',
         },
         {
             type: 'input',
@@ -67,20 +68,57 @@ const promptUser = () => {
     ]);
 };
 
+function generateMarkdown(response) {
+    return `# ${response.title}
+  
+  # Table of Content
+  
+  1. [Description](#description)
+  2. [Installation](#installation)
+  3. [Usage](#usage)
+  4. [Test](#test)
+  5. [Contribution](#contribution)
+  6. [license](#license)
+  7. [Questions](#questions)
+  
+  ##Description:
+  
+     ${response.description}
 
-// create writeFile function using promises instead of a callback function
+  ## Installation:
+    ${response.installation}
 
+  ## Usage:
+    ${response.usage}
+  
+  ## Test:
+    ${response.test}
+  
+  ## Contribution:
+    ${response.contribution}
 
-const generateReadMe = (answers) => {
+  ## License:
+  ![License](https://img.shields.io/badge/License-MIT-green.svg "license Badge")
+    ${response.license}
+    
+  ## Questions:
+     If you have any question, please you can contact me at ${response.email}
+     or through my [GitHub profile](http://github.com/${response.username})`;
 
+}
 
-    // Bonus using writeFileAsync as a promise
-    const init = () => {
-        promptUser()
-            .then((answers) => writeFileAsync('ReadMe', generateReadMe(answers)))
-            .then(() => console.log('Successfully wrote to ReadMe'))
-            .catch((err) => console.error(err));
-    };
+// This function will start the process
+async function init() {
+    try {
+        const response = await promptUser();
+        const readMeText = generateMarkdown(response);
+        await writeFileAsync("README.md", readMeText);
+        console.log('Generating README');
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
 
-    init();
-};
+init();
+
