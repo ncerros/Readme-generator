@@ -18,7 +18,7 @@
     npm i inquirer
 
   ## Usage:
-    Feel free to provide any help, its always welcome!
+    Feel free to provide any help, help its always welcome!
   
   ## Test:
     node index.js
